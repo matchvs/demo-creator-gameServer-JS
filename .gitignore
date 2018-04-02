@@ -1,0 +1,8 @@
+temp/
+library/
+local/
+packages/
+.idea/
+build/
+node_modules
+npm-debug.log

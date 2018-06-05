@@ -57,6 +57,7 @@ cc.Class({
 
         //设置回调
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
+        mvs.response.gameServerNotify = this.gameServerNotify.bind(this);//接收gameServer的消息
 
         //发送游戏场景信息给gameServer
         this.spawnNewStarFromServer();
@@ -77,12 +78,7 @@ cc.Class({
 
     sendEventNotify: function (info) {
         if (info && info.cpProto) {
-            if (info.cpProto.indexOf(GLB.NEW_START_EVENT) >= 0) {
-                // 收到创建星星的消息通知，根据消息给的坐标创建星星
-                var piz = JSON.parse(info.cpProto);
-                this.createStarNode(cc.p(piz.x, piz.y))
-
-            } else if (info.cpProto.indexOf(GLB.PLAYER_MOVE_EVENT) >= 0) {
+            if (info.cpProto.indexOf(GLB.PLAYER_MOVE_EVENT) >= 0) {
                 // 收到其他玩家移动的消息，根据消息信息修改加速度
                 this.updatePlayerMoveDirection(info.srcUserId, JSON.parse(info.cpProto))
 
@@ -109,6 +105,18 @@ cc.Class({
                     this.maxDelayValue = delayValue;
                     this.maxDelay.string = "maxDelay: " + delayValue;
                 }
+            }
+        }
+    },
+
+    gameServerNotify: function (info){
+        console.log("gameServerNotify");
+        if (info && info.cpProto) {
+            if (info.cpProto.indexOf(GLB.NEW_START_EVENT) >= 0) {
+                // 收到创建星星的消息通知，根据消息给的坐标创建星星
+                var piz = JSON.parse(info.cpProto);
+                this.createStarNode(cc.p(piz.x, piz.y))
+
             } else if (info.cpProto.indexOf(GLB.GAIN_SCORE_EVENT) >= 0) {
                 // 收到其他玩家的得分信息，更新页面上的得分数据
                 var cpproto = JSON.parse(info.cpProto);
@@ -120,7 +128,6 @@ cc.Class({
                     var label = GLB.playerUserIds[playerIndex - 1] + ': ' + cpproto.score;
                     this.scoreDisplays[playerIndex - 1].string = label;
                 }
-
             }
         }
     },

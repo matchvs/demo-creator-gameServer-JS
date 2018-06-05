@@ -27,7 +27,6 @@ cc.Class({
 
     onPicked: function() {
         // 当星星被收集时，调用 Game 脚本中的接口，生成一个新的星星
-        //this.game.spawnNewStar();
         // 调用 Game 脚本的得分方法
         this.game.gainScore();
         // 然后销毁当前星星节点
@@ -37,12 +36,7 @@ cc.Class({
     // called every frame
     update: function (dt) {
         this.game.pickRadius = this.pickRadius;
-        // 每帧判断和主角之间的距离是否小于收集距离
-        // if (this.getPlayerDistance() < this.pickRadius) {
-        //     // 调用收集行为
-        //     this.onPicked();
-        //     return;
-        // }
+
         // 根据 Game 脚本中的计时器更新星星的透明度
         var opacityRatio = Math.max(1 - this.game.timer/this.game.starDuration, 0.01);
         var minOpacity = 50;

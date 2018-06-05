@@ -4,7 +4,7 @@ try {
     engine = Matchvs.MatchvsEngine.getInstance();
 } catch (e) {
     try {
-        var jsMatchvs = require("matchvs.all.weixin");
+        var jsMatchvs = require("matchvs.all");
         engine = new jsMatchvs.MatchvsEngine();
         response = new jsMatchvs.MatchvsResponse();
     } catch (e) {

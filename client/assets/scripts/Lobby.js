@@ -118,11 +118,18 @@ cc.Class({
 
 
     sendEventResponse: function (info) {
-        if (!info
-            || !info.status
-            || info.status !== 200) {
-            return this.labelLog('事件发送失败')
+        console.info("事件发送：",info);
+        if(info && info.status){
+            if(info.status !== 200){
+                var errmsg = GLB.errorMap[info.status];
+                if (errmsg) {
+                    this.labelLog(errmsg)
+                } else {
+                    this.labelLog('事件发送失败')
+                }
+            }
         }
+        return;
     },
 
     gameReady: function(){
